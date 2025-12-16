@@ -303,4 +303,14 @@ def chatbot(json_string, user_id):
 
 
 app = FastAPI()
-chatbot("","ins_109511")
+
+@app.get("/health", tags=["system"])
+def health_check():
+    return {"status": "ok"}
+
+@app.get("/")
+def call_chat():
+    chat_response = chatbot("","ins_109511")
+    return {"chat response": chat_response}
+
+
