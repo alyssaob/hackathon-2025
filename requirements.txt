@@ -1,2 +1,9 @@
 fastapi
 uvicorn[standard]
+dotenv
+google
+google-genai
+plaid
+plaid-python
+pandas
+plotly
