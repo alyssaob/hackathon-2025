@@ -16,7 +16,7 @@ from plaid.model.transactions_get_request import TransactionsGetRequest
 import time
 from plaid.model.plaid_error import PlaidError
 from google import genai
-
+from fastapi import FastAPI
 
 def decode_json(json_string):
     return json.loads(json_string)
@@ -302,4 +302,5 @@ def chatbot(json_string, user_id):
     return make_json(user_id, gemini_result)
 
 
+app = FastAPI()
 chatbot("","ins_109511")
