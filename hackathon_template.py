@@ -17,6 +17,7 @@ import time
 from plaid.model.plaid_error import PlaidError
 from google import genai
 from fastapi import FastAPI
+import re
 
 def decode_json(json_string):
     return json.loads(json_string)
@@ -290,18 +291,26 @@ def gemini_call(json_string, plaid_dictionary):
 
 def make_json(user_id, gemini_result):
     # Convert dictionary to JSON string
-    gemini_result = {user_id:gemini_result}
-    json_str = json.dumps(gemini_result)
+    gemini_result = gemini_result.strip()
+    gemini_result = re.sub(r"^```json\s*|\s*```$", "", gemini_result)
+    gemini_result = json.loads(gemini_result)
+    gemini_result = gemini_result["output_prompt"]
+    output = {"userId": user_id, "conversation": gemini_result}
+    # gemini_result = json.loads(gemini_result)
+
+    # gemini_result = {user_id:gemini_result}
+    json_str = json.dumps(output)
     return json_str
 
 def chatbot(json_string, user_id):
     # user_input = decode_json(json_string)
-    user_input = "When should I get my oil changed?"
+    user_input = "When do I make the most big purchases?"
     plaid_dictionary = plaid_call(user_id)
     gemini_result = gemini_call(user_input, plaid_dictionary)
     return make_json(user_id, gemini_result)
 
-
+# chat_response = chatbot("","ins_109511")
+# print(chat_response)
 app = FastAPI()
 
 @app.get("/health", tags=["system"])
@@ -309,8 +318,10 @@ def health_check():
     return {"status": "ok"}
 
 @app.get("/")
+def test():
+    return {"status": "ok"}
+
+@app.get("/chatbot-response")
 def call_chat():
     chat_response = chatbot("","ins_109511")
-    return {"chat response": chat_response}
-
-
+    return chat_response
