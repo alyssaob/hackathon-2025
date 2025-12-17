@@ -98,6 +98,7 @@ def process_text(payload):
 
 @app.post("/chatbot-real")
 def process_text(payload):
+    print(payload)
     chat_response = chatbot(payload, "ins_109511")
     return chat_response
 
@@ -105,4 +106,5 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
