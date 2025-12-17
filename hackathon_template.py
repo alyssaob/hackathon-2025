@@ -25,7 +25,7 @@ def make_json(user_id, gemini_result):
 
 def parse_gemini(gemini_result):
     gemini_result = gemini_result.strip()
-    if gemini_result.contains("json"):
+    if "json" in gemini_result:
         gemini_result = re.sub(r"^```json\s*|\s*```$", "", gemini_result)
 
     return json.loads(gemini_result)
@@ -110,6 +110,7 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
 
