@@ -65,8 +65,10 @@ def chatbot(json_string, user_id):
     #         output["conversation"]["graph"] = make_histogram(transaction_data)
     # else:
     #     output["conversation"]["graph"] = "none"
-
-    return json.dumps(output)
+    print(output)
+    print(json.dumps(output))
+    return output
+    # return json.dumps(output)
 
 # chat_response = chatbot("","ins_109511")
 # print(chat_response)
@@ -106,5 +108,6 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
