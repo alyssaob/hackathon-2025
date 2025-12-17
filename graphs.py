@@ -31,40 +31,43 @@ def make_histogram(data):
     return graph_json
 
 def make_bar_chart(data):
-    # bar chart
-    # build dataframe
+    import pandas as pd
+import plotly.express as px
 
+def make_bar_chart(data):
     df = pd.DataFrame(data)
+
+    # Exclude income
     df = df[df["category"] != "Income"]
 
-    # group by category
+    # Convert expenses to positive values
+    df["amount"] = df["amount"].abs()
 
+    # Group by category
     grouped = df.groupby("category", as_index=False)["amount"].sum()
 
-    
-
-    # plotly chart
-
+    # Plot
     fig = px.bar(
-
         grouped,
         x="category",
         y="amount",
-        text="amount",
-        title="Total Amount by Category",
+        title="Total Spending by Category",
         labels={"category": "Category", "amount": "Amount ($)"}
-
     )
 
-    # --- Format text and axes ---
-
-    fig.update_traces(texttemplate="$%{text:.2f}", textposition="outside")
+    # Format bars and labels
+    fig.update_traces(
+        texttemplate="$%{y:,.2f}",
+        textposition="inside"
+    )
 
     fig.update_layout(
-
+        xaxis_type="category",
         yaxis_tickprefix="$",
         yaxis_tickformat=",.2f",
-        bargap=0.35,
+        bargap=0.3,
+        uniformtext_minsize=10,
+        uniformtext_mode="hide",
         margin=dict(l=40, r=20, t=60, b=80)
     )
 
