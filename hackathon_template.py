@@ -112,9 +112,3 @@ def process_text(payload):
 #     return chat_response
 
 
-
-
-
-
-
-
