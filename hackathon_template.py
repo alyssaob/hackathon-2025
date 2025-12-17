@@ -87,13 +87,15 @@ class OutputJSON(BaseModel):
 
 @app.post("/chatbot-response", response_model=OutputJSON)
 def process_text(payload: InputJSON):
-    chat_response = chatbot(payload, "ins_109511")
+    # chat_response = chatbot(payload, "ins_109511")
+    chat_response = {"userId": "ins_109511", "messages": "TEST MESSAGE: Try cutting down on food and dining."}
     return OutputJSON(output=chat_response)
 
 # @app.get("/chatbot-response")
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
 
