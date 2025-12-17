@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import os
+os.environ["KALEIDO_INSTALL"] = "1"
 
 def make_histogram(data):
 
