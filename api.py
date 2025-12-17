@@ -114,8 +114,8 @@ def plaid_call(user_id):
 
 def gemini_call(json_string, plaid_dictionary):
     
-    GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-    
+    # GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+    GEMINI_API_KEY = "AIzaSyBLMZKfKdq6K8a6NRkhWOn695QuH9YIJHc"
     client = genai.Client(api_key = GEMINI_API_KEY)
 
     prompt = """You are a data analysis bot that is incorporated into a banking application. You will assist users with understanding their transaction history. The user wants personalized conversational guidance that simplifies financial concepts and tailors recommendations to each user's unique goals and behavior. The user will ask questions about different saving techniques they can utilize based on their spending habits. The user will provide questions about financial clarification, saving advice, and budgeting. You will be provided with the transaction data of the user.
@@ -282,8 +282,11 @@ def gemini_call(json_string, plaid_dictionary):
     “graph_options”: “[“Bar chart”, “Pie chart”, “Histogram”]”
     }}
     """
+    time.sleep(5)
     response = client.models.generate_content(
-        model="gemini-2.5-flash", contents=prompt + user_input
+        # model="gemini-2.5-flash", contents=prompt + user_input
+        model="gemini-2.5-flash-lite", contents=prompt + user_input
+     
     )
   
     print(response.text)
