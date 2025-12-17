@@ -58,12 +58,12 @@ def chatbot(json_string, user_id):
          transaction_data = gemini_result_dict["category_list"]
          graph_type = gemini_result_dict["graph"]
          if graph_type == "Bar chart":
-             output["conversation"]["graph"] = make_bar_chart(transaction_data)
+             output["imageData"] = make_bar_chart(transaction_data)
          elif graph_type == "Pie chart":
-             output["conversation"]["graph"] = make_pie_chart(transaction_data)
+             output["imageData"] = make_pie_chart(transaction_data)
          elif graph_type == "Histogram":
-            output["conversation"]["graph"] = make_histogram(transaction_data)
-     else:
+            output["imageData"] = make_histogram(transaction_data)
+    # else:
     #     output["conversation"]["graph"] = "none"
     print(output)
     print(json.dumps(output))
@@ -108,6 +108,7 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
 
