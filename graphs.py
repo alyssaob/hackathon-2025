@@ -34,9 +34,9 @@ def make_histogram(data):
     fig.show()
     return graph_json
 
-def make_bar_chart(data):
-    import pandas as pd
-import plotly.express as px
+# def make_bar_chart(data):
+#     import pandas as pd
+# import plotly.express as px
 
 def make_bar_chart(data):
     df = pd.DataFrame(data)
@@ -84,6 +84,8 @@ def make_pie_chart(data):
     # build dataframe
 
     df = pd.DataFrame(data)
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    df = df.dropna(subset=["amount"])
     df = df[df["category"] != "Income"]
 
     # group by category
