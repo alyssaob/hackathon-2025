@@ -38,8 +38,8 @@ def texttospeech(text):
 
 
 
-def chatbot(json_string, user_id):
-    user_input = decode_json(json_string)["user_prompt"]
+def chatbot(input, user_id):
+    user_input = input["user_prompt"]
     # user_input = "How much did I spend in each spending category last month?"
     plaid_dictionary = plaid_call(user_id)
     gemini_result = gemini_call(user_input, plaid_dictionary)
@@ -93,3 +93,4 @@ def process_text(payload: InputJSON):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
