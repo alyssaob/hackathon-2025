@@ -5,7 +5,6 @@ import re
 from pydantic import BaseModel
 from fastapi import FastAPI
 from gtts import gTTS
-from fastapi.middleware.cors import CORSMiddleware
 
 from api import plaid_call
 from api import gemini_call
@@ -39,28 +38,32 @@ def texttospeech(text):
 
 
 
-def chatbot(input, user_id):
-    user_input = input.user_prompt
+def chatbot(json_string, user_id):
+    user_input = json.loads(json_string)
+    print(type(user_input))
+    print(user_input)
+    user_input = user_input["messages"]
     # user_input = "How much did I spend in each spending category last month?"
     plaid_dictionary = plaid_call(user_id)
     gemini_result = gemini_call(user_input, plaid_dictionary)
     gemini_result_dict = parse_gemini(gemini_result)
     output = {}
     output["userId"] = user_id
-    output["conversation"] = {"output_paragraph": gemini_result_dict["output_prompt"]}
-    texttospeech(gemini_result_dict["output_prompt"])
+    # output["messages"] = {"output_paragraph": gemini_result_dict["output_prompt"]}
+    output["messages"] = gemini_result_dict["output_prompt"]
+    # texttospeech(gemini_result_dict["output_prompt"])
 
-    if gemini_result_dict["answer_flag"]:
-        transaction_data = gemini_result_dict["category_list"]
-        graph_type = gemini_result_dict["graph"]
-        if graph_type == "Bar chart":
-            output["conversation"]["graph"] = make_bar_chart(transaction_data)
-        elif graph_type == "Pie chart":
-            output["conversation"]["graph"] = make_pie_chart(transaction_data)
-        elif graph_type == "Histogram":
-            output["conversation"]["graph"] = make_histogram(transaction_data)
-    else:
-        output["conversation"]["graph"] = "none"
+    # if gemini_result_dict["answer_flag"]:
+    #     transaction_data = gemini_result_dict["category_list"]
+    #     graph_type = gemini_result_dict["graph"]
+    #     if graph_type == "Bar chart":
+    #         output["conversation"]["graph"] = make_bar_chart(transaction_data)
+    #     elif graph_type == "Pie chart":
+    #         output["conversation"]["graph"] = make_pie_chart(transaction_data)
+    #     elif graph_type == "Histogram":
+    #         output["conversation"]["graph"] = make_histogram(transaction_data)
+    # else:
+    #     output["conversation"]["graph"] = "none"
 
     return json.dumps(output)
 
@@ -68,14 +71,6 @@ def chatbot(input, user_id):
 # print(chat_response)
 
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # <- you can restrict this to your frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.get("/health", tags=["system"])
 def health_check():
@@ -92,13 +87,12 @@ def process_text(payload):
     chat_response = {"userId": "ins_109511", "messages": "TEST MESSAGE: Try cutting down on food and dining."}
     return chat_response
 
+@app.post("/chatbot-real")
+def process_text(payload):
+    chat_response = chatbot(payload, "ins_109511")
+    return chat_response
+
 # @app.get("/chatbot-response")
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
-
-
-
-
-
-
