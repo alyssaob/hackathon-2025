@@ -40,6 +40,7 @@ def make_bar_chart(data):
     # Exclude income
     df = df[df["category"] != "Income"]
 
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
     # Convert expenses to positive values
     df["amount"] = df["amount"].abs()
 
