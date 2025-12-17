@@ -11,6 +11,7 @@ from api import gemini_call
 from graphs import make_bar_chart
 from graphs import make_histogram
 from graphs import make_pie_chart
+from fastapi.middleware.cors import CORSMiddleware
 
 def decode_json(json_string):
     return json.loads(json_string)
@@ -72,6 +73,14 @@ def chatbot(json_string, user_id):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <- you can restrict this to your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/health", tags=["system"])
 def health_check():
     return {"status": "ok"}
@@ -96,3 +105,4 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
