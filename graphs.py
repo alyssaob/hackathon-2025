@@ -7,12 +7,15 @@ def make_histogram(data):
 
     df = pd.DataFrame(data)
 
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    df = df.dropna(subset=["amount"])
+    df["amount"] = df["amount"].abs()  # optional if you want positive spending 
+
     fig = px.histogram(
         df,
         x="amount",
         nbins=5,                # adjust number of bins as you like
         opacity=0.75,
-        title="Distribution of Transaction Amounts",
         labels={"amount": "Amount ($)"}
 
     )
@@ -28,6 +31,7 @@ def make_histogram(data):
     )
     
     graph_json = fig.to_json()
+    fig.show()
     return graph_json
 
 def make_bar_chart(data):
@@ -52,7 +56,6 @@ def make_bar_chart(data):
         grouped,
         x="category",
         y="amount",
-        title="Total Spending by Category",
         labels={"category": "Category", "amount": "Amount ($)"}
     )
 
@@ -73,6 +76,7 @@ def make_bar_chart(data):
     )
 
     graph_json = fig.to_json()
+    fig.show()
     return graph_json
     
 def make_pie_chart(data):
@@ -90,7 +94,6 @@ def make_pie_chart(data):
         grouped,
         names="category",
         values="amount",
-        title="Share of Total Amount by Category",
         hole=0.0
     )
 
@@ -106,9 +109,6 @@ def make_pie_chart(data):
     fig.update_layout(margin=dict(l=40, r=40, t=60, b=40))
 
     graph_json = fig.to_json()
+    fig.show()
     return graph_json
     
-    # Return URL for client
-    file_url = f"/static/output_image.png"
-
-    return file_url
