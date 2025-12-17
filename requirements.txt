@@ -8,4 +8,3 @@ plaid-python
 pandas
 plotly
 gtts
-fastapi.middleware.cors
