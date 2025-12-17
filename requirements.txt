@@ -8,3 +8,4 @@ plaid-python
 pandas
 plotly
 gtts
+kaleido
