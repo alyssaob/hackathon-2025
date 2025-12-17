@@ -54,16 +54,16 @@ def chatbot(json_string, user_id):
     output["messages"] = gemini_result_dict["output_prompt"]
     # texttospeech(gemini_result_dict["output_prompt"])
 
-    # if gemini_result_dict["answer_flag"]:
-    #     transaction_data = gemini_result_dict["category_list"]
-    #     graph_type = gemini_result_dict["graph"]
-    #     if graph_type == "Bar chart":
-    #         output["conversation"]["graph"] = make_bar_chart(transaction_data)
-    #     elif graph_type == "Pie chart":
-    #         output["conversation"]["graph"] = make_pie_chart(transaction_data)
-    #     elif graph_type == "Histogram":
-    #         output["conversation"]["graph"] = make_histogram(transaction_data)
-    # else:
+    if gemini_result_dict["answer_flag"]:
+         transaction_data = gemini_result_dict["category_list"]
+         graph_type = gemini_result_dict["graph"]
+         if graph_type == "Bar chart":
+             output["conversation"]["graph"] = make_bar_chart(transaction_data)
+         elif graph_type == "Pie chart":
+             output["conversation"]["graph"] = make_pie_chart(transaction_data)
+         elif graph_type == "Histogram":
+            output["conversation"]["graph"] = make_histogram(transaction_data)
+     else:
     #     output["conversation"]["graph"] = "none"
     print(output)
     print(json.dumps(output))
@@ -95,7 +95,7 @@ def test():
 @app.post("/chatbot-response")
 def process_text(payload):
     # chat_response = chatbot(payload, "ins_109511")
-    chat_response = {"userId": "ins_109511", "messages": "TEST MESSAGE: Try cutting down on food and dining."}
+    chat_response = {"userId": "ins_109511", "messages": "It looks like your spending in November was a bit higher than in December, and there are a few areas where you might be able to trim down. In November, you spent 500.0 on KFC and 500.0 on Madison Bicycle Shop. While these are significant purchases, if they aren't essential, they could be areas to cut back. Additionally, your Uber rides in November totaled 6.33, which is slightly more than your December Uber spending of 5.4. Small, recurring expenses like these can add up, so reducing them could help you save. If you're looking to save this month, consider pausing non-essential shopping trips or looking for ways to reduce your transportation costs."}
     return chat_response
 
 @app.post("/chatbot-real")
@@ -108,6 +108,7 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
 
