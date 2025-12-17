@@ -78,11 +78,12 @@ def test():
 
 
 class InputJSON(BaseModel):
-    user_prompt: str
+    userId: str
+    messages: str
 
 class OutputJSON(BaseModel):
-    user_id: str
-    conversation: str
+    userId: str
+    messages: str
 
 @app.post("/chatbot-response", response_model=OutputJSON)
 def process_text(payload: InputJSON):
@@ -93,5 +94,6 @@ def process_text(payload: InputJSON):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
