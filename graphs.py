@@ -24,10 +24,19 @@ def make_histogram(data):
         legend_title_text="Category",
         margin=dict(l=40, r=20, t=60, b=60)
     )
-    fig.show()
+    # graph_img = fig.write_image("output_image.png")
 
-    graph_json = fig.to_json()
-    return graph_json
+    # Ensure static folder exists
+    os.makedirs("static", exist_ok=True)
+    
+    # Save the PNG file
+    file_path = "static/output_image.png"
+    fig.write_image(file_path)
+    
+    # Return URL for client
+    file_url = f"/static/output_image.png"
+
+    return file_url
 
 def make_bar_chart(data):
     # bar chart
@@ -67,11 +76,20 @@ def make_bar_chart(data):
         margin=dict(l=40, r=20, t=60, b=80)
     )
 
-    fig.show()
+    # graph_img = fig.write_image("output_image.png")
 
-    graph_json = fig.to_json()
-    return graph_json
+    # Ensure static folder exists
+    os.makedirs("static", exist_ok=True)
+    
+    # Save the PNG file
+    file_path = "static/output_image.png"
+    fig.write_image(file_path)
+    
+    # Return URL for client
+    file_url = f"/static/output_image.png"
 
+    return file_url
+    
 def make_pie_chart(data):
     # pie chart
     # build dataframe
@@ -102,7 +120,16 @@ def make_pie_chart(data):
 
     fig.update_layout(margin=dict(l=40, r=40, t=60, b=40))
 
-    fig.show()
+    # graph_img = fig.write_image("output_image.png")
 
-    graph_json = fig.to_json()
-    return graph_json
+    # Ensure static folder exists
+    os.makedirs("static", exist_ok=True)
+    
+    # Save the PNG file
+    file_path = "static/output_image.png"
+    fig.write_image(file_path)
+    
+    # Return URL for client
+    file_url = f"/static/output_image.png"
+
+    return file_url
