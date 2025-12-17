@@ -5,6 +5,7 @@ import re
 from pydantic import BaseModel
 from fastapi import FastAPI
 from gtts import gTTS
+from fastapi.middleware.cors import CORSMiddleware
 
 from api import plaid_call
 from api import gemini_call
@@ -68,6 +69,14 @@ def chatbot(input, user_id):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <- you can restrict this to your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/health", tags=["system"])
 def health_check():
     return {"status": "ok"}
@@ -87,6 +96,7 @@ def process_text(payload):
 # def call_chat():
 #     chat_response = chatbot("","ins_109511")
 #     return chat_response
+
 
 
 
